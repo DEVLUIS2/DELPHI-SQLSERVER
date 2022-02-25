@@ -1,0 +1,419 @@
+unit FILRELCOMPRA;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, Buttons, Mask, rxToolEdit, DateUtils;
+
+type
+  TTFRCompra = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    btnCancelar: TBitBtn;
+    btnRelatorio: TBitBtn;
+    grp1: TGroupBox;
+    lbl1: TLabel;
+    edtDataIni: TDateEdit;
+    lbl2: TLabel;
+    edtDataFim: TDateEdit;
+    grp2: TGroupBox;
+    lbl3: TLabel;
+    lbl4: TLabel;
+    btnPesquisaCliente: TBitBtn;
+    btnLimpaCliente: TBitBtn;
+    edtCodCliente: TEdit;
+    edtNomeCliente: TEdit;
+    grp3: TGroupBox;
+    lbl5: TLabel;
+    lbl6: TLabel;
+    btnPesquisaProduto: TBitBtn;
+    btnLimpaProduto: TBitBtn;
+    edtDescricaoProduto: TEdit;
+    rg1: TRadioGroup;
+    edtProduto: TEdit;
+    Panel3: TPanel;
+    GroupBox1: TGroupBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    btnPesquisaFornecedor: TBitBtn;
+    btnLimpaFornecedor: TBitBtn;
+    edNomeFornecedor: TEdit;
+    edFornecedor: TEdit;
+    procedure btnCancelarClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btnRelatorioClick(Sender: TObject);
+    procedure btnLimpaClienteClick(Sender: TObject);
+    procedure btnLimpaProdutoClick(Sender: TObject);
+    procedure btnPesquisaClienteClick(Sender: TObject);
+    procedure btnPesquisaProdutoClick(Sender: TObject);
+    procedure edtCodClienteExit(Sender: TObject);
+    procedure edtCodClienteKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edtCodClienteKeyPress(Sender: TObject; var Key: Char);
+    procedure edtCodProdutoExit(Sender: TObject);
+    procedure edtCodProdutoKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edtProdutoExit(Sender: TObject);
+    procedure edtProdutoKeyPress(Sender: TObject; var Key: Char);
+    procedure edtProdutoKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure FormCreate(Sender: TObject);
+    procedure edtDataIniKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edtDataFimKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edtDataIniExit(Sender: TObject);
+    procedure edtDataFimExit(Sender: TObject);
+  private
+    RecebeModulo:Integer;
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure chamaTela(Modulo:integer);
+ end;
+var
+  TFRCompra: TTFRCompra;
+
+implementation
+
+uses
+  RELCOMPRA, CLIENTE, PRODUTO, Funcoes, DMPRINCIPAL;
+
+{$R *.dfm}
+
+{ TTFRCOMPRA }
+
+procedure TTFRCompra.btnCancelarClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TTFRCompra.btnLimpaClienteClick(Sender: TObject);
+begin
+  edtCodCliente.Clear;
+  edtNomeCliente.Clear;
+  btnLimpaCliente.Enabled := False;
+  btnPesquisaCliente.Enabled := True;
+  edtCodCliente.ReadOnly := False;
+  if edtCodCliente.CanFocus then
+    edtCodCliente.SetFocus;
+end;
+
+procedure TTFRCompra.btnLimpaProdutoClick(Sender: TObject);
+begin
+  edtProduto.Clear;
+  edtDescricaoProduto.Clear;
+  btnLimpaProduto.Enabled := False;
+  btnPesquisaProduto.Enabled := True;
+  edtProduto.ReadOnly := False;
+  edtProduto.Color := clWhite;
+  if edtProduto.CanFocus then
+    edtProduto.SetFocus;
+end;
+
+procedure TTFRCompra.btnPesquisaClienteClick(Sender: TObject);
+  var InfoCliente: Integer;
+begin
+  InfoCliente := StrToInt(TCliente.transferecliente);
+  if InfoCliente > 0 then
+  begin
+    with TDMPrincipal.qGeneric do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT COD_CLI, NOME_CLI');
+      SQL.Add('FROM CLIENTE');
+      SQL.Add('WHERE COD_CLI = '+ IntToStr(InfoCliente));
+      Open;
+      if not IsEmpty then
+      begin
+        edtCodCliente.Text := FieldByName('COD_CLI').AsString;
+        edtNomeCliente.Text := FieldByName('NOME_CLI').AsString;
+        btnPesquisaCliente.Enabled := False;
+        btnLimpaCliente.Enabled := True;
+        edtCodCliente.ReadOnly := True;
+        if edtProduto.CanFocus then
+          edtProduto.SetFocus;
+      end;
+    end;
+  end;
+end;
+
+
+procedure TTFRCompra.btnPesquisaProdutoClick(Sender: TObject);
+  var InfoProduto: string;
+begin
+  InfoProduto := TProduto.TransfereProduto;
+  if InfoProduto <> '' then                                            // length(InfoProduto)
+  begin
+    with TDMPrincipal.qGeneric do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT COD_PROD,DESCRICAO_PROD');
+      SQL.Add('FROM PRODUTO');
+      SQL.Add('WHERE COD_PROD = '+InfoProduto);
+      Open;
+      if NOT IsEmpty then
+      begin
+        edtProduto.Text := FieldByName('COD_PROD').AsString;
+        edtDescricaoProduto.Text := FieldByName('DESCRICAO_PROD').AsString;
+        btnPesquisaProduto.Enabled := False;
+        btnLimpaProduto.Enabled :=True;
+        edtProduto.ReadOnly := True;
+        edtProduto.Color := clBtnFace;
+      end;
+    end;
+  end;
+end;
+
+procedure TTFRCompra.btnRelatorioClick(Sender: TObject);
+begin
+  if not(validarData(edtDataIni.Text)) then
+  begin
+    enviaMensagem('Data Inválida!','Informação...',mtConfirmation,[mbOK]);
+    if edtDataIni.CanFocus then
+      edtDataIni.SetFocus;
+    Exit;
+  end
+  else
+  if not (validarData(edtDataFim.Text)) then
+  begin
+    if edtDataFim.CanFocus then
+      edtDataFim.SetFocus;
+    Exit;
+  end
+  else
+  if Empty(edtNomeCliente.Text) and Empty(edtDescricaoProduto.Text) and Empty(edNomeFornecedor.Text) then
+    TRCompra.ChamaTela(0,0,0,rg1.ItemIndex,edtDataIni.Date,edtDataFim.Date)
+  else
+  if not(Empty(edtNomeCliente.Text)) and Empty(edtDescricaoProduto.Text) and Empty(edNomeFornecedor.Text) then
+    TRCompra.ChamaTela(StrToInt(edtCodCliente.Text),0,0,rg1.ItemIndex,edtDataIni.Date,edtDataFim.Date)
+  else
+  if not Empty(edtNomeCliente.Text) and not(Empty(edtDescricaoProduto.Text)) and Empty(edNomeFornecedor.Text) then
+    TRCompra.ChamaTela(StrToInt(edtCodCliente.Text),StrToInt(edtProduto.Text),0,rg1.ItemIndex,edtDataIni.Date,edtDataFim.Date)
+  else
+  if not Empty(edtNomeCliente.Text) and not(Empty(edtDescricaoProduto.Text)) and not(Empty(edNomeFornecedor.Text)) then
+    TRCompra.ChamaTela(StrToInt(edtCodCliente.Text),StrToInt(edtProduto.Text),StrToInt(edNomeFornecedor.Text),rg1.ItemIndex,edtDataIni.Date,edtDataFim.Date)
+  else
+  if Empty(edtNomeCliente.Text) and not(Empty(edtDescricaoProduto.Text)) and Empty(edNomeFornecedor.Text) then
+    TRCompra.ChamaTela(0,StrToInt(edtProduto.Text),0,rg1.ItemIndex,edtDataIni.Date,edtDataFim.Date)
+  else
+  if Empty(edtNomeCliente.Text) and Empty(edtDescricaoProduto.Text) and not(Empty(edNomeFornecedor.Text)) then
+    TRCompra.ChamaTela(0,0,StrToInt(edNomeFornecedor.Text),rg1.ItemIndex,edtDataIni.Date,edtDataFim.Date)
+  else
+  if Empty(edtNomeCliente.Text) and not(Empty(edtDescricaoProduto.Text)) and not(Empty(edNomeFornecedor.Text)) then
+    TRCompra.ChamaTela(0,StrToInt(edtProduto.Text),StrToInt(edNomeFornecedor.Text),rg1.ItemIndex,edtDataIni.Date,edtDataFim.Date)
+end;
+
+procedure TTFRCompra.chamaTela(Modulo:integer);
+begin
+  TFRCompra:=TTFRCompra.Create(application);
+  with TFRCompra do
+  begin
+    case Modulo of
+      1:
+      begin
+        GroupBox1.Visible := False;
+        TFRCompra.Height := 360;
+      end;
+    end;
+    ShowModal;
+    FreeAndNil(TFRCompra);
+  end;
+end;
+
+procedure TTFRCompra.edtCodClienteExit(Sender: TObject);
+begin
+  if Empty(edtNomeCliente.Text) then
+    edtCodCliente.Clear;
+end;
+
+procedure TTFRCompra.edtCodClienteKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case key of
+    VK_F3:
+    if (btnPesquisaCliente.Visible) or (btnPesquisaProduto.Enabled) then
+      btnPesquisaCliente.Click;
+  end;
+end;
+
+procedure TTFRCompra.edtCodClienteKeyPress(Sender: TObject; var Key: Char);
+begin
+   if (not(key in [#8, #13, #86, #46, #48..#57])) or (key = '.') then
+    Key := #0;
+  if key = #13 then
+  begin
+    if (not Empty(edtCodCliente.Text)) and (edtCodCliente.ReadOnly = False) then
+    begin
+      with TDMPrincipal.qGeneric do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Add('SELECT COD_CLI,NOME_CLI');
+        SQL.Add('FROM CLIENTE');
+        SQL.Add('WHERE COD_CLI = ' +edtCodCliente.Text);
+        Open;
+        if not IsEmpty then
+        begin
+          edtNomeCliente.Text := FieldByName('NOME_CLI').AsString;
+          edtCodCliente.ReadOnly := True;
+          btnLimpaCliente.Enabled := True;
+          btnPesquisaCliente.Enabled := False;
+          if edtProduto.CanFocus then
+            edtProduto.SetFocus;
+        end;
+      end;
+    end;
+  end;
+end;
+
+procedure TTFRCompra.edtCodProdutoExit(Sender: TObject);
+begin
+  if Empty(edtProduto.Text) then
+    edtProduto.Clear;
+end;
+
+procedure TTFRCompra.edtCodProdutoKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case key  of
+    vk_F3:
+      if (btnPesquisaProduto.Enabled) or (btnPesquisaProduto.Visible) then
+        btnPesquisaProduto.Click;
+  end;
+end;
+
+procedure TTFRCompra.edtDataFimExit(Sender: TObject);
+begin
+  if not(validarData(edtDataFim.Text)) then
+  begin
+    if btnCancelar.Focused then
+      btnCancelar.Click
+    else
+    begin
+      enviaMensagem('Data inválida!','Informação...',mtConfirmation,[mbOK]);
+      if edtDataFim.CanFocus then
+        edtDataFim.SetFocus;
+      Exit;
+    end;
+  end;
+end;
+
+procedure TTFRCompra.edtDataFimKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case key of
+    VK_ESCAPE:
+      if (btnCancelar.CanFocus) then
+      begin
+        btnCancelar.SetFocus;
+        Close;
+      end;
+  end;
+end;
+
+procedure TTFRCompra.edtDataIniExit(Sender: TObject);
+begin
+  if not(validarData(edtDataIni.Text)) then
+  begin
+    if btnCancelar.Focused then
+      btnCancelar.Click
+    else
+    begin
+      enviaMensagem('Data inválida!','Informação...',mtConfirmation,[mbOK]);
+      if edtDataIni.CanFocus then
+        edtDataIni.SetFocus;
+      Exit;
+    end;
+  end;
+end;
+
+procedure TTFRCompra.edtDataIniKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case key of
+    VK_ESCAPE:
+      if (btnCancelar.CanFocus) then
+      begin
+        btnCancelar.SetFocus;
+        Close;
+      end;
+  end;
+end;
+
+procedure TTFRCompra.edtProdutoExit(Sender: TObject);
+begin
+  if Empty(edtDescricaoProduto.Text) then
+    edtProduto.Clear;
+end;
+
+procedure TTFRCompra.edtProdutoKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case key of
+    VK_F3:
+    if (btnPesquisaProduto.Enabled) or (btnPesquisaProduto.Visible) then
+      btnPesquisaProduto.Click;
+  end;
+end;
+
+procedure TTFRCompra.edtProdutoKeyPress(Sender: TObject; var Key: Char);
+begin
+   if (not(key in [#8, #13, #86, #46, #48..#57])) or (key = '.') then
+    Key := #0;
+  if Key = #13 then
+  begin
+    if (not Empty(edtProduto.Text)) and (edtProduto.ReadOnly = False) then
+    begin
+      with TDMPrincipal.qGeneric do
+      begin
+        Close;
+        SQL.Clear;
+        SQL.Add('SELECT COD_PROD,DESCRICAO_PROD,PRECO_PROD');
+        SQL.Add('FROM PRODUTO');
+        SQL.Add('WHERE COD_PROD = ' + edtProduto.Text);
+        Open;
+        if not IsEmpty then
+        begin
+          edtDescricaoProduto.Text := FieldByName('DESCRICAO_PROD').AsString;
+          edtProduto.ReadOnly := True;
+          btnPesquisaProduto.Enabled := False;
+          btnLimpaProduto.Enabled := True;
+          edtProduto.Color := clBtnFace;
+          if btnRelatorio.CanFocus then
+            btnRelatorio.SetFocus;
+        end;
+      end;
+    end;
+  end;
+end;
+
+procedure TTFRCompra.FormCreate(Sender: TObject);
+begin
+  edtDataIni.Date:= StartOfTheMonth(Date);
+  edtDataFim.Date:= EndOfTheMonth(Date);
+end;
+
+procedure TTFRCompra.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case key of
+    VK_escape:
+    if (btnCancelar.Visible) and (btnCancelar.Enabled) then
+      btnCancelar.Click;
+    VK_F5:
+    if (btnRelatorio.Visible) and (btnRelatorio.Enabled) then
+      btnRelatorio.Click;
+    VK_F6:
+    if (btnLimpaCliente.Enabled) or (btnLimpaCliente.Visible) then
+      btnLimpaCliente.Click;
+    VK_F7:
+    if (btnLimpaProduto.Enabled) or (btnLimpaProduto.Visible) then
+      btnLimpaProduto.Click;
+  end;
+end;
+
+end.

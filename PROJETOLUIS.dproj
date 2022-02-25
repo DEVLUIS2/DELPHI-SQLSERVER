@@ -1,0 +1,219 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{B598242C-E711-4C01-A982-3FA14FAB69D4}</ProjectGuid>
+			<ProjectVersion>12.0</ProjectVersion>
+			<MainSource>PROJETOLUIS.dpr</MainSource>
+			<Config Condition="'$(Config)'==''">Release</Config>
+			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+			<Cfg_1>true</Cfg_1>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+			<Cfg_2>true</Cfg_2>
+			<CfgParent>Base</CfgParent>
+			<Base>true</Base>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Base)'!=''">
+			<DCC_UsePackage>vclx;vcl;dbrtl;Rave76VCL;bdertl;rtl;DbxClientDriver;DbxCommonDriver;DBXInterBaseDriver;DBXMySQLDriver;vclactnband;vcldb;vcldbx;dsnap;dsnapcon;TeeUI;TeeDB;Tee;adortl;vclib;ibxpress;IndyCore;IndySystem;IndyProtocols;xmlrtl;inet;intrawebdb_100_120;Intraweb_100_120;VclSmp;vclie;websnap;webdsnap;inetdbbde;inetdbxpress;soaprtl;vclribbon;dbexpress;DataSnapIndy10ServerTransport;DataSnapProviderClient;DataSnapServer;dbxcds;DBXSybaseASEDriver;DBXSybaseASADriver;DBXOracleDriver;DBXMSSQLDriver;DBXInformixDriver;DBXDb2Driver;TCFLib120;TCFDsg120;AlignEditDB;BitBtnMoveD10;BtnCompsD10;CameraD10;ColorBevelD10;Packcaca;FlatStyle_D6;FocusComp;GMLib_D2009;GradPanD10;IEButtonD10;mFileScanD10;RayLightAutoStartD10;SBComp;siFlatBtnD10;XiControlsD10;tmsd2009;rxbde;rxctl;rxdb;ESSSVO;RLibWinD2009;AbbreviaVCL;PackYuri;psvdr7;tmsxlsd2009;tmswizd2009;tmsexd2009;ACBr_Comum;ACBr_synapse;ACBr_OpenSSL;ACBr_Diversos;ACBr_Serial;ACBr_Convenio115;ACBr_TXTComum;ACBr_LFD;ACBr_PAF;ACBr_SEF2;ACBr_PCNComum;ACBr_Sintegra;ACBr_SPED;ACBr_SPEDImportar;ACBR_DeSTDA;ACBr_Ponto;ACBr_TCP;ACBr_Boleto;ACBr_MTER;ZComponent;ZDbc;ZPlain;ZCore;ZParseSql;Jcl;JclVcl;JvCoreD12R;JvSystemD12R;JvStdCtrlsD12R;JvAppFrmD12R;JvBandsD12R;JvDBD12R;JvDlgsD12R;JvBDED12R;JvCmpD12R;JvCryptD12R;JvCtrlsD12R;JvCustomD12R;JvDockingD12R;JvDotNetCtrlsD12R;JvEDID12R;JvGlobusD12R;JvHMID12R;JvInterpreterD12R;JvJansD12R;JvManagedThreadsD12R;JvMMD12R;JvNetD12R;JvPageCompsD12R;JvPluginD12R;JvPrintPreviewD12R;JvRuntimeDesignD12R;JvTimeFrameworkD12R;JvValidatorsD12R;JvWizardD12R;JvXPCtrlsD12R;QR5Run_RAD6</DCC_UsePackage>
+			<DCC_DependencyCheckOutputName>PROJETOLUIS.exe</DCC_DependencyCheckOutputName>
+			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)</DCC_UnitAlias>
+			<DCC_ImageBase>00400000</DCC_ImageBase>
+			<DCC_Platform>x86</DCC_Platform>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+			<DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_2)'!=''">
+			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+		</PropertyGroup>
+		<ItemGroup>
+			<DelphiCompile Include="PROJETOLUIS.dpr">
+				<MainSource>MainSource</MainSource>
+			</DelphiCompile>
+			<DCCReference Include="Funcoes.pas"/>
+			<DCCReference Include="FuncoesDB.pas"/>
+			<DCCReference Include="Fornecedores.pas">
+				<Form>TFornecedores</Form>
+			</DCCReference>
+			<DCCReference Include="FornecedoresC.pas">
+				<Form>TFornecedoresC</Form>
+			</DCCReference>
+			<DCCReference Include="Ini.pas">
+				<Form>TConfiguracao</Form>
+			</DCCReference>
+			<DCCReference Include="FiltroTop10Produtos.pas">
+				<Form>TFiltroTop10Produtos</Form>
+			</DCCReference>
+			<DCCReference Include="FiltroListagemFornecedores.pas">
+				<Form>TFiltroListagemFornecedores</Form>
+			</DCCReference>
+			<DCCReference Include="FiltroTop10Fornecedores.pas">
+				<Form>TFiltroTop10Fornecedores</Form>
+			</DCCReference>
+			<DCCReference Include="RelatorioTop10Fornecedores.pas">
+				<Form>TRelatorioTop10Fornecedores</Form>
+			</DCCReference>
+			<DCCReference Include="FiltroCompraPeriodo.pas">
+				<Form>TFiltroCompraPeriodo</Form>
+			</DCCReference>
+			<DCCReference Include="FiltroCompraModelo2.pas">
+				<Form>TFiltroCompraModelo2</Form>
+			</DCCReference>
+			<DCCReference Include="RelatorioCompraPeriodo.pas">
+				<Form>TRelatorioCompraPeriodo</Form>
+			</DCCReference>
+			<DCCReference Include="RelCompra.pas">
+				<Form>TRelCompra</Form>
+			</DCCReference>
+			<DCCReference Include="RelCliente.pas">
+				<Form>TRelCliente</Form>
+			</DCCReference>
+			<DCCReference Include="RelProduto.pas">
+				<Form>TRelProduto</Form>
+			</DCCReference>
+			<DCCReference Include="Principal.pas">
+				<Form>TPrincipal</Form>
+			</DCCReference>
+			<DCCReference Include="Produto.pas">
+				<Form>TProduto</Form>
+			</DCCReference>
+			<DCCReference Include="ProdutoC.pas">
+				<Form>TProdutoC</Form>
+			</DCCReference>
+			<DCCReference Include="FiltroFornecedores.pas">
+				<Form>TFiltroFornecedores</Form>
+			</DCCReference>
+			<DCCReference Include="RelFornecedores.pas">
+				<Form>TRelFornecedores</Form>
+			</DCCReference>
+			<DCCReference Include="FiltroProduto.pas">
+				<Form>TFiltroProduto</Form>
+			</DCCReference>
+			<DCCReference Include="FiltroCompra.pas">
+				<Form>TFiltroCompra</Form>
+			</DCCReference>
+			<DCCReference Include="FiltroCliente.pas">
+				<Form>TFiltroCliente</Form>
+			</DCCReference>
+			<DCCReference Include="DMPrincipal.pas">
+				<Form>TDMPrincipal</Form>
+				<DesignClass>TDataModule</DesignClass>
+			</DCCReference>
+			<DCCReference Include="CompraC.pas">
+				<Form>TCompraC</Form>
+			</DCCReference>
+			<DCCReference Include="Compra.pas">
+				<Form>TCompra</Form>
+			</DCCReference>
+			<DCCReference Include="ClienteC.pas">
+				<Form>TClienteC</Form>
+			</DCCReference>
+			<DCCReference Include="Cliente.pas">
+				<Form>TCliente</Form>
+			</DCCReference>
+			<DCCReference Include="FiltroTop10Clientes.pas">
+				<Form>TFiltroTop10Clientes</Form>
+			</DCCReference>
+			<DCCReference Include="RelatorioTop10Cliente.pas">
+				<Form>TRelatorioTop10Cliente</Form>
+			</DCCReference>
+			<DCCReference Include="RelatorioTop10Produto.pas">
+				<Form>TRelatorioTop10Produto</Form>
+			</DCCReference>
+			<DCCReference Include="GraficoCliente.pas">
+				<Form>TGraficoCliente</Form>
+			</DCCReference>
+			<DCCReference Include="GraficoProduto.pas">
+				<Form>TGraficoProduto</Form>
+			</DCCReference>
+			<DCCReference Include="GraficoTop10Produto.pas">
+				<Form>TGraficoTop10Produto</Form>
+			</DCCReference>
+			<DCCReference Include="GraficoTop10Fornecedores.pas">
+				<Form>TGraficoTop10Fornecedores</Form>
+			</DCCReference>
+			<DCCReference Include="GraficoCompraPeriodo.pas">
+				<Form>TGraficoCompraPeriodo</Form>
+			</DCCReference>
+			<DCCReference Include="GraficoClienteSintetico.pas">
+				<Form>TGraficoClienteSintetico</Form>
+			</DCCReference>
+			<DCCReference Include="GraficoFornecedorSintetico.pas">
+				<Form>TGraficoSinteticoFornecedor</Form>
+			</DCCReference>
+			<DCCReference Include="GraficoProdutoSintetico.pas">
+				<Form>TGraficoProdutoSintetico</Form>
+			</DCCReference>
+			<DCCReference Include="GraficoCompraPeriodoSintetico.pas">
+				<Form>TGraficoCompraPeriodoSintetico</Form>
+			</DCCReference>
+			<BuildConfiguration Include="Base">
+				<Key>Base</Key>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Release">
+				<Key>Cfg_1</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Debug">
+				<Key>Cfg_2</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+		</ItemGroup>
+		<Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
+		<ProjectExtensions>
+			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Delphi.Personality>
+					<Parameters>
+						<Parameters Name="UseLauncher">False</Parameters>
+						<Parameters Name="LoadAllSymbols">True</Parameters>
+						<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+					</Parameters>
+					<VersionInfo>
+						<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
+						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
+						<VersionInfo Name="MajorVer">1</VersionInfo>
+						<VersionInfo Name="MinorVer">0</VersionInfo>
+						<VersionInfo Name="Release">0</VersionInfo>
+						<VersionInfo Name="Build">0</VersionInfo>
+						<VersionInfo Name="Debug">False</VersionInfo>
+						<VersionInfo Name="PreRelease">False</VersionInfo>
+						<VersionInfo Name="Special">False</VersionInfo>
+						<VersionInfo Name="Private">False</VersionInfo>
+						<VersionInfo Name="DLL">False</VersionInfo>
+						<VersionInfo Name="Locale">1046</VersionInfo>
+						<VersionInfo Name="CodePage">1252</VersionInfo>
+					</VersionInfo>
+					<VersionInfoKeys>
+						<VersionInfoKeys Name="CompanyName"/>
+						<VersionInfoKeys Name="FileDescription"/>
+						<VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="InternalName"/>
+						<VersionInfoKeys Name="LegalCopyright"/>
+						<VersionInfoKeys Name="LegalTrademarks"/>
+						<VersionInfoKeys Name="OriginalFilename"/>
+						<VersionInfoKeys Name="ProductName"/>
+						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="Comments"/>
+					</VersionInfoKeys>
+					<Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\bin\dcloffice2k120.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+						<Excluded_Packages Name="$(BDS)\bin\dclofficexp120.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+					</Excluded_Packages>
+					<Source>
+						<Source Name="MainSource">PROJETOLUIS.dpr</Source>
+					</Source>
+				</Delphi.Personality>
+				<ModelSupport>False</ModelSupport>
+			</BorlandProject>
+			<ProjectFileVersion>12</ProjectFileVersion>
+		</ProjectExtensions>
+	</Project>

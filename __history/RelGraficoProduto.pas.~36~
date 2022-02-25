@@ -1,0 +1,104 @@
+unit RelGraficoProduto;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, TeeProcs, TeEngine, Chart, DBChart, DB, ADODB, Series,
+  StdCtrls, Buttons;
+
+type
+  TTRelGraficoProduto = class(TForm)
+    qProduto: TADOQuery;
+    qProdutoDESCRICAO_PROD: TStringField;
+    qProdutoESTOQUE_PROD: TBCDField;
+    Panel1: TPanel;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    BitBtn3: TBitBtn;
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btnPreviewClick(Sender: TObject);
+    procedure btnNextClick(Sender: TObject);
+    procedure DBChart1PageChange(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+  private
+    OAtivo:Integer;
+    procedure Grafico;
+    { Private declarations }
+  public
+    procedure ChamaTela(Ativo:Integer);
+    { Public declarations }
+  end;
+
+var
+  TRelGraficoProduto: TTRelGraficoProduto;
+
+implementation
+
+uses
+  DMPrincipal;
+
+{$R *.dfm}
+
+procedure TTRelGraficoProduto.btnPreviewClick(Sender: TObject);
+begin
+  DBChart1.PreviousPage;
+end;
+
+procedure TTRelGraficoProduto.btnNextClick(Sender: TObject);
+begin
+  DBChart1.NextPage;
+end;
+
+procedure TTRelGraficoProduto.BitBtn3Click(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TTRelGraficoProduto.ChamaTela(Ativo:Integer);
+begin
+  TRelGraficoProduto := TTRelGraficoProduto.Create(Application);
+  with TRelGraficoProduto do
+  begin
+    OAtivo := Ativo;
+    Grafico;
+    ShowModal;
+    FreeAndNil(TRelGraficoProduto);
+  end;
+end;
+
+procedure TTRelGraficoProduto.DBChart1PageChange(Sender: TObject);
+begin
+  LabPag.Caption := IntToStr(DBChart1.Page) + '/' + IntToStr(DBChart1.NumPages);
+end;
+
+procedure TTRelGraficoProduto.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case key of
+    VK_ESCAPE:
+      Close;
+  end;
+end;
+
+procedure TTRelGraficoProduto.Grafico;
+begin
+  with qProduto do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT DESCRICAO_PROD,ESTOQUE_PROD');
+    SQL.Add('FROM PRODUTO');
+    case OAtivo of
+      1:
+        SQL.Add('WHERE ATIVO = 1');
+      2:
+        SQL.Add('WHERE ATIVO = 0');
+    end;
+    SQL.Add('ORDER BY ESTOQUE_PROD');
+    Open;
+    LabPag.Caption := IntToStr(DBChart1.Page) + '/' + IntToStr(DBChart1.NumPages);
+  end;
+end;
+
+end.

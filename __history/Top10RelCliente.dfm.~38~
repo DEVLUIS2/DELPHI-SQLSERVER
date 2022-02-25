@@ -1,0 +1,599 @@
+object TRClienteCompra: TTRClienteCompra
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  Caption = 'Top 10 Cliente'
+  ClientHeight = 494
+  ClientWidth = 771
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  KeyPreview = True
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object RLReport1: TRLReport
+    Left = -8
+    Top = -8
+    Width = 794
+    Height = 1123
+    DataSource = dsTopCliente
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'Arial'
+    Font.Style = []
+    object RLBand1: TRLBand
+      Left = 38
+      Top = 38
+      Width = 718
+      Height = 107
+      BandType = btTitle
+      object RLPanel1: TRLPanel
+        Left = 0
+        Top = 0
+        Width = 718
+        Height = 32
+        Align = faTop
+        object RLLabel1: TRLLabel
+          Left = 0
+          Top = 0
+          Width = 718
+          Height = 32
+          Align = faClient
+          Alignment = taCenter
+          Caption = 'Mercado Bela Vista'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -19
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Layout = tlCenter
+          ParentFont = False
+        end
+      end
+      object RLPanel2: TRLPanel
+        Left = 0
+        Top = 32
+        Width = 718
+        Height = 32
+        Align = faTop
+        object RLLabel2: TRLLabel
+          Left = 0
+          Top = 0
+          Width = 718
+          Height = 32
+          Align = faClient
+          Alignment = taCenter
+          Caption = 'Top 10 Cliente que mais compraram'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -19
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Layout = tlCenter
+          ParentFont = False
+        end
+      end
+      object RLPanel3: TRLPanel
+        Left = 0
+        Top = 64
+        Width = 718
+        Height = 32
+        Align = faTop
+        object TRLLabel
+          Left = 0
+          Top = 0
+          Width = 718
+          Height = 32
+          Align = faClient
+          Alignment = taCenter
+          Caption = 'Ordenado pelo Valor da Compra'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -19
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Layout = tlCenter
+          ParentFont = False
+        end
+      end
+    end
+    object RLBand2: TRLBand
+      Left = 38
+      Top = 145
+      Width = 718
+      Height = 20
+      BandType = btColumnHeader
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = False
+      Borders.DrawTop = False
+      Borders.DrawRight = False
+      Borders.DrawBottom = False
+      object RLPanel5: TRLPanel
+        Left = 0
+        Top = 0
+        Width = 81
+        Height = 20
+        Align = faLeft
+        Borders.Sides = sdCustom
+        Borders.DrawLeft = True
+        Borders.DrawTop = True
+        Borders.DrawRight = False
+        Borders.DrawBottom = True
+        Layout = tlCenter
+        Transparent = False
+        object RLLabel5: TRLLabel
+          Left = 1
+          Top = 1
+          Width = 80
+          Height = 18
+          Align = faClient
+          Alignment = taCenter
+          Borders.Sides = sdCustom
+          Borders.DrawLeft = False
+          Borders.DrawTop = False
+          Borders.DrawRight = False
+          Borders.DrawBottom = False
+          Caption = 'C'#243'digo'
+          Color = clGray
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Layout = tlCenter
+          ParentColor = False
+          ParentFont = False
+          Transparent = False
+        end
+      end
+      object RLPanel6: TRLPanel
+        Left = 81
+        Top = 0
+        Width = 292
+        Height = 20
+        Align = faLeft
+        Borders.Sides = sdCustom
+        Borders.DrawLeft = True
+        Borders.DrawTop = True
+        Borders.DrawRight = False
+        Borders.DrawBottom = True
+        Layout = tlCenter
+        Transparent = False
+        object RLLabel6: TRLLabel
+          Left = 1
+          Top = 1
+          Width = 291
+          Height = 18
+          Align = faClient
+          Alignment = taCenter
+          Borders.Sides = sdCustom
+          Borders.DrawLeft = False
+          Borders.DrawTop = False
+          Borders.DrawRight = False
+          Borders.DrawBottom = False
+          Caption = 'Nome do Cliente'
+          Color = clGray
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Layout = tlCenter
+          ParentColor = False
+          ParentFont = False
+          Transparent = False
+        end
+      end
+      object RLPanel7: TRLPanel
+        Left = 373
+        Top = 0
+        Width = 109
+        Height = 20
+        Align = faLeft
+        Borders.Sides = sdCustom
+        Borders.DrawLeft = True
+        Borders.DrawTop = True
+        Borders.DrawRight = True
+        Borders.DrawBottom = True
+        Layout = tlCenter
+        Transparent = False
+        object RLLabel7: TRLLabel
+          Left = 1
+          Top = 1
+          Width = 107
+          Height = 18
+          Align = faClient
+          Alignment = taCenter
+          Borders.Sides = sdCustom
+          Borders.DrawLeft = False
+          Borders.DrawTop = False
+          Borders.DrawRight = False
+          Borders.DrawBottom = False
+          Caption = 'RG'
+          Color = clGray
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Layout = tlCenter
+          ParentColor = False
+          ParentFont = False
+          Transparent = False
+        end
+      end
+      object RLPanel4: TRLPanel
+        Left = 574
+        Top = 0
+        Width = 144
+        Height = 20
+        Align = faRight
+        Borders.Sides = sdCustom
+        Borders.DrawLeft = False
+        Borders.DrawTop = True
+        Borders.DrawRight = True
+        Borders.DrawBottom = True
+        Layout = tlCenter
+        Transparent = False
+        object RLLabel3: TRLLabel
+          Left = 0
+          Top = 1
+          Width = 143
+          Height = 18
+          Align = faClient
+          Alignment = taCenter
+          Borders.Sides = sdCustom
+          Borders.DrawLeft = False
+          Borders.DrawTop = False
+          Borders.DrawRight = False
+          Borders.DrawBottom = False
+          Caption = 'Valor da Compra'
+          Color = clGray
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Layout = tlCenter
+          ParentColor = False
+          ParentFont = False
+          Transparent = False
+        end
+      end
+      object RLPanel13: TRLPanel
+        Left = 480
+        Top = 0
+        Width = 94
+        Height = 20
+        Align = faRight
+        Borders.Sides = sdCustom
+        Borders.DrawLeft = True
+        Borders.DrawTop = True
+        Borders.DrawRight = True
+        Borders.DrawBottom = True
+        Layout = tlCenter
+        Transparent = False
+        object RLLabel4: TRLLabel
+          Left = 1
+          Top = 1
+          Width = 92
+          Height = 18
+          Align = faClient
+          Alignment = taCenter
+          Borders.Sides = sdCustom
+          Borders.DrawLeft = False
+          Borders.DrawTop = False
+          Borders.DrawRight = False
+          Borders.DrawBottom = False
+          Caption = 'Quantidade'
+          Color = clGray
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Layout = tlCenter
+          ParentColor = False
+          ParentFont = False
+          Transparent = False
+        end
+      end
+    end
+    object RLBand3: TRLBand
+      Left = 38
+      Top = 165
+      Width = 718
+      Height = 20
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = False
+      Borders.DrawTop = False
+      Borders.DrawRight = False
+      Borders.DrawBottom = True
+      Borders.FixedBottom = True
+      object RLPanel8: TRLPanel
+        Left = 0
+        Top = 0
+        Width = 81
+        Height = 19
+        Align = faLeft
+        Borders.Sides = sdCustom
+        Borders.DrawLeft = True
+        Borders.DrawTop = False
+        Borders.DrawRight = False
+        Borders.DrawBottom = False
+        object RLDBText1: TRLDBText
+          Left = 1
+          Top = 0
+          Width = 80
+          Height = 19
+          Align = faClient
+          Borders.Sides = sdCustom
+          Borders.DrawLeft = False
+          Borders.DrawTop = False
+          Borders.DrawRight = False
+          Borders.DrawBottom = False
+          DataField = 'COD_CLI'
+          DataSource = dsTopCliente
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Layout = tlCenter
+          ParentFont = False
+        end
+      end
+      object RLPanel9: TRLPanel
+        Left = 81
+        Top = 0
+        Width = 292
+        Height = 19
+        Align = faLeft
+        Borders.Sides = sdCustom
+        Borders.DrawLeft = True
+        Borders.DrawTop = False
+        Borders.DrawRight = False
+        Borders.DrawBottom = False
+        object RLDBText2: TRLDBText
+          Left = 1
+          Top = 0
+          Width = 291
+          Height = 19
+          Align = faClient
+          Borders.Sides = sdCustom
+          Borders.DrawLeft = False
+          Borders.DrawTop = False
+          Borders.DrawRight = False
+          Borders.DrawBottom = False
+          DataField = 'NOME_CLI'
+          DataSource = dsTopCliente
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Layout = tlCenter
+          ParentFont = False
+        end
+      end
+      object RLPanel10: TRLPanel
+        Left = 373
+        Top = 0
+        Width = 109
+        Height = 19
+        Align = faLeft
+        Borders.Sides = sdCustom
+        Borders.DrawLeft = True
+        Borders.DrawTop = False
+        Borders.DrawRight = True
+        Borders.DrawBottom = False
+        object RLDBText3: TRLDBText
+          Left = 1
+          Top = 0
+          Width = 107
+          Height = 19
+          Align = faClient
+          Borders.Sides = sdCustom
+          Borders.DrawLeft = False
+          Borders.DrawTop = False
+          Borders.DrawRight = False
+          Borders.DrawBottom = False
+          DataField = 'RG_CLI'
+          DataSource = dsTopCliente
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Layout = tlCenter
+          ParentFont = False
+        end
+      end
+      object RLPanel12: TRLPanel
+        Left = 574
+        Top = 0
+        Width = 144
+        Height = 19
+        Align = faRight
+        object RLDBText4: TRLDBText
+          Left = 0
+          Top = 0
+          Width = 144
+          Height = 19
+          Align = faClient
+          Borders.Sides = sdCustom
+          Borders.DrawLeft = False
+          Borders.DrawTop = False
+          Borders.DrawRight = True
+          Borders.DrawBottom = False
+          DataField = 'VALORTOTAL_COMPRA'
+          DataSource = dsTopCliente
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Layout = tlCenter
+          ParentFont = False
+        end
+      end
+      object RLPanel14: TRLPanel
+        Left = 480
+        Top = 0
+        Width = 94
+        Height = 19
+        Align = faRight
+        Borders.Sides = sdCustom
+        Borders.DrawLeft = False
+        Borders.DrawTop = False
+        Borders.DrawRight = True
+        Borders.DrawBottom = False
+        object RLDBText5: TRLDBText
+          Left = 0
+          Top = 0
+          Width = 93
+          Height = 19
+          Align = faClient
+          Borders.Sides = sdCustom
+          Borders.DrawLeft = False
+          Borders.DrawTop = False
+          Borders.DrawRight = False
+          Borders.DrawBottom = False
+          DataField = 'QUANTIDADE_COMPRA'
+          DataSource = dsTopCliente
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Arial'
+          Font.Style = []
+          Layout = tlCenter
+          ParentFont = False
+        end
+      end
+    end
+    object RLBand4: TRLBand
+      Left = 38
+      Top = 205
+      Width = 718
+      Height = 38
+      BandType = btFooter
+      object RLPanel11: TRLPanel
+        Left = 0
+        Top = 0
+        Width = 718
+        Height = 38
+        Align = faClient
+        object RLLabel8: TRLLabel
+          Left = 0
+          Top = 0
+          Width = 411
+          Height = 38
+          Align = faLeft
+          Caption = '  Focus Desenvolvimento de Sistemas - Gerado em [DATA DE HOJE].'
+        end
+      end
+    end
+    object RLBand5: TRLBand
+      Left = 38
+      Top = 185
+      Width = 718
+      Height = 20
+      BandType = btSummary
+      object RLPanel23: TRLPanel
+        Left = 574
+        Top = 0
+        Width = 106
+        Height = 20
+        Align = faRight
+        Borders.Sides = sdCustom
+        Borders.DrawLeft = True
+        Borders.DrawTop = False
+        Borders.DrawRight = False
+        Borders.DrawBottom = True
+        object RLLabel13: TRLLabel
+          Left = 1
+          Top = 0
+          Width = 105
+          Height = 19
+          Align = faClient
+          Alignment = taCenter
+          Caption = 'N'#186' de Registros:'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBlack
+          Font.Height = -13
+          Font.Name = 'Arial'
+          Font.Style = [fsBold]
+          Layout = tlCenter
+          ParentFont = False
+        end
+      end
+      object RLPanel24: TRLPanel
+        Left = 680
+        Top = 0
+        Width = 38
+        Height = 20
+        Align = faRight
+        Borders.Sides = sdCustom
+        Borders.DrawLeft = False
+        Borders.DrawTop = False
+        Borders.DrawRight = True
+        Borders.DrawBottom = True
+        object RLDBResult1: TRLDBResult
+          Left = 0
+          Top = 0
+          Width = 37
+          Height = 19
+          Align = faClient
+          Alignment = taCenter
+          DataField = 'COD_CLI'
+          DataSource = dsTopCliente
+          Info = riCount
+          Layout = tlCenter
+        end
+      end
+    end
+  end
+  object qTopCliente: TADOQuery
+    Connection = TDMPrincipal.Connection
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      
+        'SELECT TOP(10) C.COD_CLI,C.NOME_CLI,C.RG_CLI,CP.VALORTOTAL_COMPR' +
+        'A,CP.QUANTIDADE_COMPRA'
+      'FROM CLIENTE C'
+      'INNER JOIN COMPRA CP ON CP.COD_CLI = C.COD_CLI')
+    Left = 112
+    Top = 328
+    object qTopClienteCOD_CLI: TAutoIncField
+      FieldName = 'COD_CLI'
+      ReadOnly = True
+    end
+    object qTopClienteNOME_CLI: TStringField
+      FieldName = 'NOME_CLI'
+      Size = 100
+    end
+    object qTopClienteRG_CLI: TStringField
+      FieldName = 'RG_CLI'
+      Size = 12
+    end
+    object qTopClienteVALORTOTAL_COMPRA: TBCDField
+      FieldName = 'VALORTOTAL_COMPRA'
+      Precision = 15
+      Size = 2
+    end
+    object qTopClienteQUANTIDADE_COMPRA: TIntegerField
+      FieldName = 'QUANTIDADE_COMPRA'
+    end
+  end
+  object dsTopCliente: TDataSource
+    DataSet = qTopCliente
+    Left = 192
+    Top = 328
+  end
+end

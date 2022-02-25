@@ -1,0 +1,105 @@
+unit GraficoCompraPeriodoSintetico;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ExtCtrls, TeeProcs, TeEngine, Chart, DBChart, DB,
+  ADODB, Series;
+
+type
+  TTGraficoCompraPeriodoSintetico = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    BitBtn1: TBitBtn;
+    LCount: TLabel;
+    btnFechar: TBitBtn;
+    BitBtn3: TBitBtn;
+    DBChart1: TDBChart;
+    qCompra: TADOQuery;
+    Series1: TPieSeries;
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure btnFecharClick(Sender: TObject);
+    procedure DBChart1PageChange(Sender: TObject);
+  private
+    RIni,RFim:TDateTime;
+    procedure GraficoSintetico;
+    { Private declarations }
+  public
+    procedure ChamaTela(Ini,Fim:TDateTime);
+    { Public declarations }
+  end;
+
+var
+  TGraficoCompraPeriodoSintetico: TTGraficoCompraPeriodoSintetico;
+
+implementation
+
+uses
+  DMPrincipal, FuncoesDB;
+
+{$R *.dfm}
+
+procedure TTGraficoCompraPeriodoSintetico.BitBtn1Click(Sender: TObject);
+begin
+  DBChart1.PreviousPage;
+end;
+
+procedure TTGraficoCompraPeriodoSintetico.BitBtn3Click(Sender: TObject);
+begin
+  DBChart1.NextPage;
+end;
+
+procedure TTGraficoCompraPeriodoSintetico.btnFecharClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TTGraficoCompraPeriodoSintetico.ChamaTela(Ini,Fim:TDateTime);
+begin
+  TGraficoCompraPeriodoSintetico := TTGraficoCompraPeriodoSintetico.Create(Application);
+  with TGraficoCompraPeriodoSintetico do
+  begin
+    RIni := Ini;
+    RFim := Fim;
+    GraficoSintetico;
+     ShowModal;
+    FreeAndNil(TGraficoCompraPeriodoSintetico);
+  end;
+end;
+
+procedure TTGraficoCompraPeriodoSintetico.DBChart1PageChange(Sender: TObject);
+begin
+  LCount.Caption := IntToStr(DBChart1.Page) + '/' + IntToStr(DBChart1.NumPages);
+end;
+
+procedure TTGraficoCompraPeriodoSintetico.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case key of
+    VK_ESCAPE:
+      if (btnFechar.Visible) and (btnFechar.Enabled) then
+        btnFechar.Click;
+  end;
+end;
+
+procedure TTGraficoCompraPeriodoSintetico.GraficoSintetico;
+begin
+  with qCompra do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT CONVERT(VARCHAR(10),DATA_COMPRA,103)AS DATA_COMPRA,');
+    SQL.Add('SUM(QUANTIDADE_COMPRA)AS QUANTIDADE');
+    SQL.Add('FROM COMPRA');
+    SQL.Add('WHERE DATA_COMPRA BETWEEN '+dateTextSql(RIni)+' AND '+dateTextSql(RFim)+'');
+    SQL.Add('GROUP BY DATA_COMPRA');
+    SQL.Add('ORDER BY DATA_COMPRA');
+    Open;
+    LCount.Caption := IntToStr(DBChart1.Page) + '/' + IntToStr(DBChart1.NumPages);
+  end;
+end;
+
+end.

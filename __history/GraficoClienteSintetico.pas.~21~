@@ -1,0 +1,92 @@
+unit GraficoClienteSintetico;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, StdCtrls, Buttons, TeeProcs, TeEngine, Chart, DBChart, DB,
+  ADODB, Series;
+
+type
+  TTGraficoClienteSintetico = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    LContador: TLabel;
+    BitBtn3: TBitBtn;
+    DBChart1: TDBChart;
+    qCliente: TADOQuery;
+    Series1: TPieSeries;
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure DBChart1PageChange(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+  private
+    procedure GraficoSintetico;
+    { Private declarations }
+  public
+    procedure ChamaTela;
+    { Public declarations }
+  end;
+
+var
+  TGraficoClienteSintetico: TTGraficoClienteSintetico;
+
+implementation
+
+uses
+  DMPrincipal;
+
+{$R *.dfm}
+
+procedure TTGraficoClienteSintetico.BitBtn1Click(Sender: TObject);
+begin
+  DBChart1.PreviousPage;
+end;
+
+procedure TTGraficoClienteSintetico.BitBtn2Click(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TTGraficoClienteSintetico.BitBtn3Click(Sender: TObject);
+begin
+  DBChart1.NextPage;
+end;
+
+procedure TTGraficoClienteSintetico.ChamaTela;
+begin
+  TGraficoClienteSintetico := TTGraficoClienteSintetico.Create(Application);
+  with TGraficoClienteSintetico do
+  begin
+    GraficoSintetico;
+    ShowModal;
+    FreeAndNil(TGraficoClienteSintetico);
+  end;
+end;
+
+procedure TTGraficoClienteSintetico.DBChart1PageChange(Sender: TObject);
+begin
+  LContador.Caption := IntToStr(DBChart1.Page) + '/' + IntToStr(DBChart1.NumPages);
+end;
+
+procedure TTGraficoClienteSintetico.GraficoSintetico;
+begin
+  with qCliente do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT '+QuotedStr('ATIVO')+'AS STATUS, COUNT(COD_CLI)AS QUANTIDADE');
+    SQL.Add('FROM CLIENTE');
+    SQL.Add('WHERE ATIVO = 1');
+    SQL.Add('UNION ALL');
+    SQL.Add('SELECT '+QuotedStr('INATIVO')+' AS STATUS, COUNT(COD_CLI)AS QUANTIDADE');
+    SQL.Add('FROM CLIENTE');
+    SQL.Add('WHERE ATIVO = 0');
+    Open;
+    LContador.Caption := IntToStr(DBChart1.Page) + '/' + IntToStr(DBChart1.NumPages);
+  end;
+end;
+
+end.

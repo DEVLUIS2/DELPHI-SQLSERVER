@@ -1,0 +1,105 @@
+unit RelGraficoCliente;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, TeeProcs, TeEngine, Chart, RLReport, Series, DB, ADODB,
+  DBChart, jpeg, StdCtrls, Buttons;
+
+type
+  TTRelGraficoCliente = class(TForm)
+    qCliente: TADOQuery;
+    qClienteCOD_CLI: TAutoIncField;
+    qClienteNOME_CLI: TStringField;
+    qClienteQUANTIDADE: TIntegerField;
+    DBChart1: TDBChart;
+    Series1: TPieSeries;
+    Series2: TBarSeries;
+    Panel1: TPanel;
+    LabPage: TLabel;
+    btnPreview: TBitBtn;
+    btnNext: TBitBtn;
+    BitBtn3: TBitBtn;
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btnNextClick(Sender: TObject);
+    procedure btnPreviewClick(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure DBChart1PageChange(Sender: TObject);
+  private
+    procedure Grafico;
+    { Private declarations }
+  public
+    procedure ChamaTela;
+    { Public declarations }
+  end;
+
+var
+  TRelGraficoCliente: TTRelGraficoCliente;
+
+implementation
+
+uses
+  DMPrincipal;
+
+{$R *.dfm}
+
+{ TTRelGraficoCliente }
+
+procedure TTRelGraficoCliente.btnPreviewClick(Sender: TObject);
+begin
+  DBChart1.PreviousPage;
+end;
+
+procedure TTRelGraficoCliente.BitBtn3Click(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TTRelGraficoCliente.btnNextClick(Sender: TObject);
+begin
+  DBChart1.NextPage;
+end;
+
+procedure TTRelGraficoCliente.ChamaTela;
+begin
+  TRelGraficoCliente := TTRelGraficoCliente.Create(Application);
+  with TRelGraficoCliente do
+  begin
+    Grafico;
+    ShowModal;
+    FreeAndNil(TRelGraficoCliente);
+  end;
+end;
+
+procedure TTRelGraficoCliente.DBChart1PageChange(Sender: TObject);
+begin
+  LabPage.Caption := IntToStr(DBChart1.Page) + '/' + IntToStr(DBChart1.NumPages);
+end;
+
+procedure TTRelGraficoCliente.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case key of
+    VK_ESCAPE:
+      Close;
+  end;
+end;
+
+procedure TTRelGraficoCliente.Grafico;
+begin
+  with qCliente do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT C.COD_CLI,C.NOME_CLI,SUM(CP.QUANTIDADE_COMPRA)AS QUANTIDADE');
+    SQL.Add('FROM CLIENTE C');
+    SQL.Add('INNER JOIN COMPRA CP ON CP.COD_CLI = C.COD_CLI');
+    SQL.Add('GROUP BY C.COD_CLI,C.NOME_CLI');
+    SQL.Add('ORDER BY QUANTIDADE');
+    Open;
+    LabPage.Caption := IntToStr(DBChart1.Page) + '/' + IntToStr(DBChart1.NumPages);
+  end;
+end;
+
+end.

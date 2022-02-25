@@ -1,0 +1,97 @@
+unit FilTop10Clientes;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, StdCtrls, Buttons, Mask, rxToolEdit, DateUtils;
+
+type
+  TTFilTopCliente = class(TForm)
+    Panel2: TPanel;
+    btnImprimir: TBitBtn;
+    btnCancelar: TBitBtn;
+    GroupBox1: TGroupBox;
+    dtIni: TDateEdit;
+    dtFim: TDateEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    procedure btnImprimirClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure dtIniKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+  private
+    { Private declarations }
+  public
+    procedure ChamaTela;
+    { Public declarations }
+  end;
+
+var
+  TFilTopCliente: TTFilTopCliente;
+
+implementation
+
+uses
+  Top10RelCliente, Funcoes;
+
+{$R *.dfm}
+
+procedure TTFilTopCliente.btnCancelarClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TTFilTopCliente.btnImprimirClick(Sender: TObject);
+begin
+  if validarData(dtIni.Date) and validarData(dtFim.Date)then
+    enviaMensagem('Data Inválida','Informação',mtConfirmation,[mbOK]);
+
+  TRClienteCompra.ChamaTela(dtIni.Date,dtFim.Date)
+  end;
+end;
+
+procedure TTFilTopCliente.ChamaTela;
+begin
+  TFilTopCliente := TTFilTopCliente.Create(Application);
+  with TFilTopCliente do
+  begin
+    ShowModal;
+    FreeAndNil(TFilTopCliente);
+  end;
+end;
+
+procedure TTFilTopCliente.dtIniKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case key of
+    VK_ESCAPE:
+      if btnCancelar.CanFocus then
+      begin
+         btnCancelar.SetFocus;
+         Close;
+      end;
+  end;
+end;
+
+procedure TTFilTopCliente.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case key of
+    VK_ESCAPE:
+      if (btnCancelar.Visible) and (btnCancelar.Enabled) then
+        btnCancelar.Click;
+    VK_F5:
+      if (btnImprimir.Visible) and (btnImprimir.Enabled) then
+        btnImprimir.Click;
+  end;
+end;
+
+procedure TTFilTopCliente.FormShow(Sender: TObject);
+begin
+  dtIni.Date := StartOfTheMonth(Date);
+  dtFim.Date := EndOfTheMonth(Date);
+end;
+
+end.

@@ -1,0 +1,234 @@
+unit FILRELPRODUTO;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ExtCtrls, Mask, rxToolEdit, DateUtils;
+
+type
+  TTFRProduto = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    btnRelatorio: TBitBtn;
+    btnCancelar: TBitBtn;
+    grp1: TGroupBox;
+    lbl1: TLabel;
+    lbl2: TLabel;
+    edtDataIni: TDateEdit;
+    edtDataFim: TDateEdit;
+    rg1: TRadioGroup;
+    rg2: TRadioGroup;
+    RadioGroup1: TRadioGroup;
+    GroupBox1: TGroupBox;
+    Label5: TLabel;
+    Label1: TLabel;
+    btnPesquisaProduto: TBitBtn;
+    btnLimpaProduto: TBitBtn;
+    edCodProduto: TEdit;
+    edDescricaoProduto: TEdit;
+    procedure btnCancelarClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btnRelatorioClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure edtDataIniKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edtDataFimKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edtDataIniExit(Sender: TObject);
+    procedure edtDataFimExit(Sender: TObject);
+    procedure RadioGroup1Click(Sender: TObject);
+    procedure edCodProdutoKeyPress(Sender: TObject; var Key: Char);
+    procedure btnLimpaProdutoClick(Sender: TObject);
+    procedure edCodProdutoKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure chamaTela;
+  end;
+
+var
+  TFRProduto: TTFRProduto;
+
+implementation
+
+uses
+  RELPRODUTO, Funcoes, Fornecedores, DMPRINCIPAL;
+
+{$R *.dfm}
+
+{ TForm2 }
+
+procedure TTFRProduto.btnCancelarClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TTFRProduto.btnLimpaProdutoClick(Sender: TObject);
+begin
+  edCodProduto.ReadOnly := False;
+  edCodProduto.Clear;
+  edDescricaoProduto.Clear;
+  btnLimpaProduto.Enabled := False;
+  btnPesquisaProduto.Enabled := True;
+end;
+
+procedure TTFRProduto.btnRelatorioClick(Sender: TObject);
+begin
+  if validarData(edtDataIni.Text) and validarData(edtDataFim.Text) then
+    if Empty(edCodProduto.Text) then
+      TRProduto.ChamaTela(rg1.ItemIndex,rg2.ItemIndex,RadioGroup1.ItemIndex,0,edtDataIni.Date,edtDataFim.Date)
+    else
+      TRProduto.ChamaTela(rg1.ItemIndex,rg2.ItemIndex,RadioGroup1.ItemIndex,StrToInt(edCodProduto.Text),edtDataIni.Date,edtDataFim.Date)
+  else
+  begin
+    enviaMensagem('Data Inválida!','Informação...',mtConfirmation,[mbOK]);
+    Exit;
+  end;
+end;
+
+procedure TTFRProduto.chamaTela;
+begin
+  TFRProduto := TTFRProduto.Create(APPLICATION);
+  with TFRProduto do
+  begin
+    ShowModal;
+    FreeAndNil(TFRProduto);
+  end;
+end;
+
+procedure TTFRProduto.edCodProdutoKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case key of
+    VK_F3:
+      if (btnPesquisaProduto.Visible) and (btnPesquisaProduto.Enabled) then
+        btnPesquisaProduto.Click;
+    VK_F6:
+      if (btnLimpaProduto.Visible) and (btnLimpaProduto.Enabled) then
+        btnLimpaProduto.Click;
+  end;
+end;
+
+procedure TTFRProduto.edCodProdutoKeyPress(Sender: TObject; var Key: Char);
+begin
+  if not (key in[#13,#48..#57,#8]) then
+    key := #0;
+  if (key = #13) and not(Empty(edCodProduto.Text)) then
+  begin
+    with TDMPrincipal.qGeneric do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT COD_PROD,DESCRICAO_PROD');
+      SQL.Add('FROM PRODUTO');
+      SQL.Add('WHERE COD_PROD = '+edCodProduto.Text);
+      Open;
+      if not IsEmpty then
+      begin
+        edCodProduto.Text := FieldByName('COD_PROD').AsString;
+        edDescricaoProduto.Text := FieldByName('DESCRICAO_PROD').AsString;
+        edCodProduto.ReadOnly := True;
+        btnLimpaProduto.Enabled := True;
+        btnPesquisaProduto.Enabled := False;
+        if btnRelatorio.CanFocus then
+          btnRelatorio.SetFocus;
+      end;
+    end;
+  end;
+end;
+
+procedure TTFRProduto.edtDataFimExit(Sender: TObject);
+begin
+  if not(validarData(edtDataFim.Text)) then
+  begin
+    if btnCancelar.Focused then
+      btnCancelar.Click
+    else
+    begin
+      enviaMensagem('Data inválida!','Informação...',mtConfirmation,[mbOK]);
+      if edtDataFim.CanFocus then
+        edtDataFim.SetFocus;
+      Exit;
+    end;
+  end;
+end;
+
+procedure TTFRProduto.edtDataFimKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case key of
+    VK_ESCAPE:
+      if (btnCancelar.CanFocus) then
+      begin
+        btnCancelar.SetFocus;
+        Close;
+      end;
+  end;
+end;
+
+procedure TTFRProduto.edtDataIniExit(Sender: TObject);
+begin
+  if not(validarData(edtDataIni.Text)) then
+  begin
+    if btnCancelar.Focused then
+      btnCancelar.Click
+    else
+    begin
+      enviaMensagem('Data inválida!','Informação...',mtConfirmation,[mbOK]);
+      if edtDataIni.CanFocus then
+        edtDataIni.SetFocus;
+      Exit;
+    end;
+  end;
+end;
+
+procedure TTFRProduto.edtDataIniKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case key of
+    VK_ESCAPE:
+      if btnCancelar.CanFocus then
+      begin
+        btnCancelar.SetFocus;
+        Close;
+      end;
+  end;
+end;
+
+procedure TTFRProduto.FormCreate(Sender: TObject);
+begin
+  edtDataIni.Date:= StartOfTheMonth(Date);
+  edtDataFim.Date:= EndOfTheMonth(Date);
+end;
+
+procedure TTFRProduto.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  case key of
+    VK_ESCAPE:
+    if (btnCancelar.Visible) and (btnCancelar.Enabled) then
+      btnCancelar.Click;
+    VK_F5:
+    if (btnRelatorio.Visible) and (btnRelatorio.Enabled) then
+      btnRelatorio.Click;
+    VK_F6:
+  end;
+end;
+procedure TTFRProduto.RadioGroup1Click(Sender: TObject);
+begin
+  if RadioGroup1.ItemIndex = 1 then
+  begin
+    rg1.Enabled := False;
+    rg2.Enabled := False;
+  end
+  else
+  begin
+    rg1.Enabled := True;
+    rg2.Enabled := True;
+  end;
+end;
+
+end.

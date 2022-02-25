@@ -1,0 +1,29 @@
+object TDMPrincipal: TTDMPrincipal
+  OldCreateOrder = False
+  OnCreate = DataModuleCreate
+  Height = 264
+  Width = 419
+  object QGENERIC: TADOQuery
+    Connection = CONNECTION
+    Parameters = <>
+    Left = 56
+    Top = 112
+  end
+  object CONNECTION: TADOConnection
+    ConnectionString = 
+      'Provider=SQLOLEDB.1;Integrated Security=SSPI;Persist Security In' +
+      'fo=False;User ID=SA;Initial Catalog=ESTAGIARIO_LUIS;Data Source=' +
+      'localhost;Use Procedure for Prepare=1;Auto Translate=True;Packet' +
+      ' Size=4096;Workstation ID=LEANDRO-PC;Use Encryption for Data=Fal' +
+      'se;Tag with column collation when possible=False'
+    Provider = 'SQLOLEDB.1'
+    Left = 264
+    Top = 112
+  end
+  object COMAND: TADOCommand
+    Connection = CONNECTION
+    Parameters = <>
+    Left = 160
+    Top = 112
+  end
+end

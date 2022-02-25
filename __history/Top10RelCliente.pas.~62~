@@ -1,0 +1,123 @@
+unit Top10RelCliente;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, RLReport, DB, ADODB, DateUtils;
+
+type
+  TTRClienteCompra = class(TForm)
+    RLReport1: TRLReport;
+    RLBand1: TRLBand;
+    RLPanel1: TRLPanel;
+    RLPanel2: TRLPanel;
+    RLPanel3: TRLPanel;
+    RLLabel1: TRLLabel;
+    RLLabel2: TRLLabel;
+    RLBand2: TRLBand;
+    RLPanel5: TRLPanel;
+    RLLabel5: TRLLabel;
+    RLPanel6: TRLPanel;
+    RLLabel6: TRLLabel;
+    RLPanel7: TRLPanel;
+    RLLabel7: TRLLabel;
+    RLBand3: TRLBand;
+    RLPanel8: TRLPanel;
+    RLDBText1: TRLDBText;
+    RLPanel9: TRLPanel;
+    RLDBText2: TRLDBText;
+    RLPanel10: TRLPanel;
+    RLDBText3: TRLDBText;
+    RLBand4: TRLBand;
+    RLPanel11: TRLPanel;
+    RLLabel8: TRLLabel;
+    RLBand5: TRLBand;
+    RLPanel23: TRLPanel;
+    RLLabel13: TRLLabel;
+    RLPanel24: TRLPanel;
+    RLDBResult1: TRLDBResult;
+    qTopCliente: TADOQuery;
+    dsTopCliente: TDataSource;
+    qTopClienteCOD_CLI: TAutoIncField;
+    qTopClienteNOME_CLI: TStringField;
+    qTopClienteRG_CLI: TStringField;
+    RLPanel4: TRLPanel;
+    RLLabel3: TRLLabel;
+    RLPanel12: TRLPanel;
+    RLDBText4: TRLDBText;
+    qTopClienteVALORTOTAL_COMPRA: TBCDField;
+    RLPanel13: TRLPanel;
+    RLLabel4: TRLLabel;
+    RLPanel14: TRLPanel;
+    RLDBText5: TRLDBText;
+    qTopClienteQUANTIDADE_COMPRA: TIntegerField;
+    RLPanel15: TRLPanel;
+    LPeriodo: TRLLabel;
+    procedure qTopClienteVALORTOTAL_COMPRAGetText(Sender: TField;
+      var Text: string; DisplayText: Boolean);
+  private
+    RecebeData,RecebeData2:TDateTime;
+    { Private declarations }
+  public
+    procedure ChamaTela(Data1,Data2:TDateTime);
+    procedure PassaDados;
+    { Public declarations }
+  end;
+
+var
+  TRClienteCompra: TTRClienteCompra;
+
+implementation
+
+uses
+  DMPRINCIPAL, Funcoes, FuncoesDB;
+
+{$R *.dfm}
+
+{ TTRClienteCompra }
+
+procedure TTRClienteCompra.ChamaTela(Data1,Data2:TDateTime);
+begin
+  TRClienteCompra := TTRClienteCompra.Create(Application);
+  with TRClienteCompra do
+  begin
+    RecebeData := Data1;
+    RecebeData2 := Data2;
+    PassaDados;
+    if qTopCliente.IsEmpty then
+    begin
+      enviaMensagem('Não Existe registro','Infromação...',mtInformation,[mbOK]);
+      Exit;
+    end
+    else
+      RLReport1.PreviewModal;
+    FreeAndNil(TRClienteCompra);
+  end;
+end;
+
+procedure TTRClienteCompra.PassaDados;
+begin
+  with qTopCliente do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT TOP(10) C.COD_CLI,C.NOME_CLI,C.RG_CLI,CP.VALORTOTAL_COMPRA,CP.QUANTIDADE_COMPRA');
+    SQL.Add('FROM CLIENTE C');
+    SQL.Add('INNER JOIN COMPRA CP ON CP.COD_CLI = C.COD_CLI');
+    SQL.Add('WHERE CP.DATA_COMPRA BETWEEN '+dateTextSql(recebedata)+' AND '+dateTextSql(RecebeData2)+'');
+    SQL.Add('ORDER BY CP.VALORTOTAL_COMPRA DESC');
+    qTopCliente.FieldByName('VALORTOTAL_COMPRA').OnGetText := qTopClienteVALORTOTAL_COMPRAGetText;
+    Open;
+    LPeriodo.Caption := ' Período: De: '+DateTimeToStr(RecebeData)+' Até: '+DateTimeToStr(RecebeData2)+'';
+    RLLabel8.Caption := ' Focus Desenvolvimento de Sistemas - Gerado em '+FormatDateTime('dd/mm/yyyy hh:mm:ss',Now)+''
+  end;
+end;
+
+procedure TTRClienteCompra.qTopClienteVALORTOTAL_COMPRAGetText(Sender: TField;
+  var Text: string; DisplayText: Boolean);
+begin
+  Text := 'R$' + FormatFloat('0.00',qTopCliente.FieldByName('VALORTOTAL_COMPRA').AsFloat);
+end;
+
+end.
